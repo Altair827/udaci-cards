@@ -20,7 +20,7 @@ class AddDeck extends React.Component {
 
       Alert.alert(
         'Deck Alert',
-        this.state.deckName + ' has been created successfully',
+        '"' + this.state.deckName + '" has been created successfully',
         [
           {text: 'OK', onPress: () => this.props.navigation.goBack()}
         ]
@@ -35,12 +35,23 @@ class AddDeck extends React.Component {
     }
   }
 
+  ConfirmNewDeckCreation = () => {
+    Alert.alert(
+      'Deck Alert',
+      'Do you want to create a new deck "' + this.state.deckName + '"?',
+      [
+        {text: 'Yes', onPress: () => this.props.CreateNewDeck(this.state.deckName)},
+        {text: 'Review',style:'cancel'}
+      ]
+    );
+  }
+
   render() {
     return (
       <KeyboardAvoidingView behavior='padding' style={Styles.MainContainer}>
         <Text
             style={{fontSize : 24}}
-          >Name Your New Deck</Text>
+        >Name Your New Deck</Text>
         <TextInput
           style={Styles.NewDeckInput}
           autoCapitalize='words'
@@ -49,7 +60,7 @@ class AddDeck extends React.Component {
           value={this.state.deckName}
         />
         <Button
-          onPress={() => this.props.CreateNewDeck(this.state.deckName)}
+          onPress={() => this.ConfirmNewDeckCreation()}
           title="Add Deck"
         />
       </KeyboardAvoidingView>
