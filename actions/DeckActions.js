@@ -27,7 +27,7 @@ export const CreateNewDeck = (deck) => {
       }
     };
 
-    AsyncStorage.mergeItem('Decks',JSON.stringify(NewDeck), (error) => {
+    AsyncStorage.mergeItem('Decks', JSON.stringify(newDeck),(error) => {
       dispatch(NewDeck(false));
     });
 
