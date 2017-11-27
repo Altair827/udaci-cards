@@ -3,16 +3,24 @@ import { Text, View, StyleSheet, Button, AsyncStorage,
          Dimensions,TouchableNativeFeedback, Platform,
          Alert } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
+import ControlButton from './ControlButtons'
 
 export default class DeckPreview extends React.Component {
 
   state = {
-    isControlVisible : false
+    isControlVisible : false,
+    isEditDeckName : false
   }
 
   SetControlVisible = () => {
     this.setState({
-      isControlVisible : true
+      isControlVisible : !this.state.isEditDeckName
+    })
+  }
+
+  SetEditDeckName = () => {
+    this.setState({
+      isEditDeckName : true
     })
   }
 
@@ -22,15 +30,46 @@ export default class DeckPreview extends React.Component {
     })
   }
 
+  HideEditControls = () => {
+    this.setState({
+      isEditDeckName : false
+    })
+  }
+
+  SaveEdit = () => {
+      Alert.alert('Do you want to save the new name?');
+      this.HideEditControls();
+  }
+
   DeleteDeck = () => {
     Alert.alert('Do you want to delete this deck?');
+    this.HideControl();
+  }
+
+  EditDeckName = () => {
+    this.HideControl();
+    this.SetEditDeckName();
+  }
+
+  OnCardPress = () => {
+
+    if(this.state.isEditDeckName || this.state.isControlVisible){
+      this.setState({
+        isControlVisible : false,
+        isEditDeckName : false
+      });
+    }
+    else {
+      this.props.navigation.navigate('DeckScreen')
+    }
+
   }
 
   render(){
     return (
 
       <TouchableNativeFeedback
-        onPress={() => this.props.navigation.navigate('DeckScreen')}
+        onPress={() => this.OnCardPress()}
         onLongPress={() => this.SetControlVisible()}
         background={Platform.OS === 'android' ? TouchableNativeFeedback.SelectableBackground() : ''}
       >
@@ -39,41 +78,69 @@ export default class DeckPreview extends React.Component {
           {this.state.isControlVisible &&
             <View>
 
-              <TouchableNativeFeedback
-                onPress={() => {this.HideControl()}}
-              >
-                <Text style={styles.closeButton}>
-                  x Close
-                </Text>
-              </TouchableNativeFeedback>
+              <ControlButton
+                onPress={() => this.HideControl()}
+                style={styles.closeButton}
+                icon="close"
+                iconColor="white"
+                text="Close"
+              />
 
               <View style={styles.controlView}>
 
-                <TouchableNativeFeedback
-                  onPress={() => {}}
-                >
-                  <Text style={styles.editButton}>
-                    <MaterialIcons name="edit" color="black" />
-                    Edit
-                  </Text>
-                </TouchableNativeFeedback>
+                <ControlButton
+                  onPress={() => this.EditDeckName()}
+                  style={styles.editButton}
+                  icon="edit"
+                  iconColor="black"
+                  text="Edit"
+                />
 
-                <TouchableNativeFeedback
+                <ControlButton
                   onPress={() => this.DeleteDeck()}
-                >
-                  <Text style={styles.deleteButton}>
-                    <MaterialIcons name="delete" color="white" />
-                    Delete
-                  </Text>
-                </TouchableNativeFeedback>
+                  style={styles.deleteButton}
+                  icon="delete"
+                  iconColor="white"
+                  text="Delete"
+                />
 
               </View>
             </View>
           }
 
+          {
+            this.state.isEditDeckName &&
+            <View>
+              <ControlButton
+                onPress={() => this.HideEditControls()}
+                style={styles.cancelButton}
+                icon="close"
+                iconColor="white"
+                text="Cancel"
+              />
+
+              <ControlButton
+                onPress={() => this.SaveEdit()}
+                style={styles.saveButton}
+                icon="save"
+                iconColor="black"
+                text="Save"
+              />
+            </View>
+
+          }
+
           <View style={styles.alignCenter}>
-            <Text style={styles.deckHeading}>Yolo</Text>
+
+            {
+              this.state.isEditDeckName ?
+                <Text style={styles.deckHeading}>Edit</Text>
+                :
+                <Text style={styles.deckHeading}>Yolo</Text>
+            }
+
             <Text style={styles.deckCards}>5 Cards</Text>
+
           </View>
         </View>
 
@@ -144,5 +211,28 @@ const styles = StyleSheet.create({
     position : 'absolute',
     margin : 3,
     flexDirection : 'row'
+  },
+  cancelButton : {
+    paddingLeft : 3,
+    paddingRight : 3,
+    backgroundColor : '#455A64',
+    borderRadius : 3,
+    elevation : 2,
+    color : 'white',
+    position : 'absolute',
+    margin : 6,
+    flexDirection : 'row'
+  },
+  saveButton : {
+    paddingLeft : 3,
+    paddingRight : 3,
+    backgroundColor : '#00E676',
+    borderRadius : 3,
+    elevation : 2,
+    color : 'black',
+    position : 'absolute',
+    margin : 6,
+    flexDirection : 'row',
+    right : 0
   }
 });
