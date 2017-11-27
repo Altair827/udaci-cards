@@ -1,18 +1,30 @@
 import React from 'react'
-import { Text, View, StyleSheet, Button } from 'react-native'
+import { Text, View, StyleSheet, Button, AsyncStorage, Dimensions,TouchableNativeFeedback, Platform } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
+import DeckPreview from '../components/DeckPreview'
 
 export default class DeckList extends React.Component {
-  static navigationOptions = {
-    title: 'Home'
+
+  constructor(props) {
+    super(props);
   }
+
+  static navigationOptions = {
+    title: 'Decks'
+  }
+
+  getDecks = () => {
+    AsyncStorage.getItem('Decks').then((value) => {});
+  }
+
   render() {
     return (
       <View>
-        <Button
-          onPress={() => this.props.navigation.navigate('DeckScreen', {name: 'Lucy'})}
-          title="Open Deck"
-        />
+
+        <DeckPreview navigation={this.props.navigation} />
+        <DeckPreview navigation={this.props.navigation} />
+        <DeckPreview navigation={this.props.navigation} />
+
       </View>
     )
   }
