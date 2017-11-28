@@ -1,7 +1,7 @@
 import React from 'react'
 import { Text, View, StyleSheet, Button, AsyncStorage,
          Dimensions,TouchableNativeFeedback, Platform,
-         Alert } from 'react-native'
+         Alert, TextInput } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import ControlButton from './ControlButtons'
 
@@ -9,7 +9,8 @@ export default class DeckPreview extends React.Component {
 
   state = {
     isControlVisible : false,
-    isEditDeckName : false
+    isEditDeckName : false,
+    newName : 'Fill thru prop'
   }
 
   SetControlVisible = () => {
@@ -134,7 +135,13 @@ export default class DeckPreview extends React.Component {
 
             {
               this.state.isEditDeckName ?
-                <Text style={styles.deckHeading}>Edit</Text>
+                <TextInput
+                  style={styles.NewDeckName}
+                  autoCapitalize='words'
+                  underlineColorAndroid='#448AFF'
+                  onChangeText={(newName) => this.setState({newName})}
+                  value={this.state.newName}
+                />
                 :
                 <Text style={styles.deckHeading}>Yolo</Text>
             }
@@ -234,5 +241,14 @@ const styles = StyleSheet.create({
     margin : 6,
     flexDirection : 'row',
     right : 0
+  },
+  NewDeckName : {
+    width : 250,
+    height : 50,
+    margin : 3,
+    paddingRight : 6,
+    paddingLeft : 6,
+    padding : 3,
+    fontSize : 26
   }
 });
