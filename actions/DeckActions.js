@@ -20,13 +20,13 @@ export const CreateNewDeck = (deck) => {
 
   return (dispatch) => {
 
-    AsyncStorage.getItem('Decks').then((result) => {
+    AsyncStorage.getItem('DeckCount').then((result) => {
 
       let count = 1;
 
       if(result != null){
         const resultObject = JSON.parse(result);
-        count = Object.keys(resultObject).length + 1;
+        count = resultObject.Value + 1;
       };
 
       const newDeck = {
