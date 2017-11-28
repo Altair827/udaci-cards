@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet, Button, AsyncStorage, FlatList, ScrollView } from 'react-native'
+import { Text, View, StyleSheet, Button, AsyncStorage, FlatList, ScrollView, KeyboardAvoidingView } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import DeckPreview from '../components/DeckPreview'
 import { connect } from 'react-redux'
@@ -9,12 +9,13 @@ class DeckList extends React.Component {
 
   constructor(props) {
     super(props);
-    AsyncStorage.removeItem('Decks');
-    AsyncStorage.removeItem('DeckIdCount');
+
     this.state = {
       text : '',
       count : ''
     }
+
+    this.getDecks();
   }
 
   static navigationOptions = {
@@ -36,20 +37,27 @@ class DeckList extends React.Component {
     const DeckIds = Object.keys(this.props.Decks);
 
     return (
-      <ScrollView>
-        <Button
-          onPress={() => this.getDecks()}
-          title="Get Decks"
-        />
-        <Text>{this.state.text}</Text>
-        <Text>{this.state.count}</Text>
-        <Text>{JSON.stringify(this.props.Decks)}</Text>
+      <KeyboardAvoidingView behavior='position' style={{ flex: 1}} >
+        { false &&
+          <View>
+            <Button
+              onPress={() => this.getDecks()}
+              title="Get Decks"
+            />
+          <Text>{this.state.text}</Text>
+          <Text>{this.state.count}</Text>
+          <Text>{JSON.stringify(this.props.Decks)}</Text>
+        </View>
+        }
         <FlatList
+          //style={{ flex: 1}}
           data={DeckIds}
           keyExtractor={item => item}
           renderItem={({item}) => <DeckPreview deckId={item} navigation={this.props.navigation} />}
+          keyboardShouldPersistTaps='always'
+          overScrollMode='always'
         />
-      </ScrollView>
+      </KeyboardAvoidingView>
     )
   }
 };

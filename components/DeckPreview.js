@@ -99,7 +99,6 @@ class DeckPreview extends React.Component {
     const Deck = this.props.decks[this.props.deckId];
 
     return (
-
       <TouchableNativeFeedback
         onPress={() => this.OnCardPress()}
         onLongPress={() => this.SetControlVisible()}
@@ -166,13 +165,13 @@ class DeckPreview extends React.Component {
 
             {
               this.state.isEditDeckName ?
-                <TextInput
-                  style={styles.NewDeckName}
-                  autoCapitalize='words'
-                  underlineColorAndroid='#448AFF'
-                  onChangeText={(newName) => this.setState({newName})}
-                  value={this.state.newName}
-                />
+                  <TextInput
+                    style={styles.NewDeckName}
+                    autoCapitalize='words'
+                    underlineColorAndroid='#448AFF'
+                    onChangeText={(newName) => this.setState({newName})}
+                    value={this.state.newName}
+                  />
                 :
                 <Text style={styles.deckHeading}>{Deck.Title}</Text>
             }
@@ -183,7 +182,6 @@ class DeckPreview extends React.Component {
         </View>
 
       </TouchableNativeFeedback>
-
     )
   }
 };
