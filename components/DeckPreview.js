@@ -4,13 +4,15 @@ import { Text, View, StyleSheet, Button, AsyncStorage,
          Alert, TextInput } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import ControlButton from './ControlButtons'
+import { connect } from 'react-redux'
+import { EditDeckTitle, RemoveDeck } from '../actions/DeckActions'
 
-export default class DeckPreview extends React.Component {
+class DeckPreview extends React.Component {
 
   state = {
     isControlVisible : false,
     isEditDeckName : false,
-    newName : 'Fill thru prop'
+    newName : this.props.decks[this.props.deckId].Title
   }
 
   SetControlVisible = () => {
@@ -38,13 +40,39 @@ export default class DeckPreview extends React.Component {
   }
 
   SaveEdit = () => {
-      Alert.alert('Do you want to save the new name?');
-      this.HideEditControls();
+
+    const deck = this.props.decks[this.props.deckId]
+
+    Alert.alert(
+      'Deck Alert',
+      'Do you want to rename the deck "'+ deck.Title +'" to "' + this.state.newName + '"?',
+      [
+        {text: 'Yes', onPress: () => {
+            this.props.EditDeckTitle(deck.key,this.state.newName);
+            this.HideEditControls();
+          }
+        },
+        {text: 'Review',style:'cancel'}
+      ]
+    );
+
   }
 
   DeleteDeck = () => {
-    Alert.alert('Do you want to delete this deck?');
-    this.HideControl();
+    const deck = this.props.decks[this.props.deckId]
+
+    Alert.alert(
+      'Deck Alert',
+      'Do you want to delete the deck "' + deck.Title + '" ?',
+      [
+        {text: 'Yes', onPress: () => {
+            this.props.RemoveDeck(deck.key);
+            this.HideControl();
+          }
+        },
+        {text: 'No',style:'cancel'}
+      ]
+    );
   }
 
   EditDeckName = () => {
@@ -61,12 +89,15 @@ export default class DeckPreview extends React.Component {
       });
     }
     else {
-      this.props.navigation.navigate('DeckScreen')
+      this.props.navigation.navigate('DeckScreen');
     }
 
   }
 
-  render(){
+  render() {
+
+    const Deck = this.props.decks[this.props.deckId];
+
     return (
 
       <TouchableNativeFeedback
@@ -143,17 +174,18 @@ export default class DeckPreview extends React.Component {
                   value={this.state.newName}
                 />
                 :
-                <Text style={styles.deckHeading}>Yolo</Text>
+                <Text style={styles.deckHeading}>{Deck.Title}</Text>
             }
 
-            <Text style={styles.deckCards}>5 Cards</Text>
+            <Text style={styles.deckCards}>{Deck.QuestionsCount} Cards</Text>
 
           </View>
         </View>
 
       </TouchableNativeFeedback>
 
-    )}
+    )
+  }
 };
 
 const window = Dimensions.get('window');
@@ -252,3 +284,18 @@ const styles = StyleSheet.create({
     fontSize : 26
   }
 });
+
+const mapStateToProps = ({ DeckReducer }) => {
+  return {
+    decks : DeckReducer.decks
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    EditDeckTitle : (key, title) => dispatch(EditDeckTitle(key,title)),
+    RemoveDeck : (key) => dispatch(RemoveDeck(key))
+  };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(DeckPreview);
