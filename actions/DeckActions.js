@@ -20,15 +20,32 @@ export const CreateNewDeck = (deck) => {
 
   return (dispatch) => {
 
-    const newDeck = {
-      [deck.replace(/\s/g,'')] : {
-        title : [deck],
-        questions : null
-      }
-    };
+    AsyncStorage.getItem('Decks').then((result) => {
 
-    AsyncStorage.mergeItem('Decks', JSON.stringify(newDeck),(error) => {
-      dispatch(NewDeck(false));
+      let count = 1;
+
+      if(result != null){
+        const resultObject = JSON.parse(result);
+        count = Object.keys(resultObject).length + 1;
+      };
+
+      const newDeck = {
+        [count.toString()] : {
+          Title : deck,
+          QuestionsCount : 0,
+          Questions : null
+        }
+      };
+
+      AsyncStorage.mergeItem('Decks', JSON.stringify(newDeck), () => {
+        dispatch(NewDeck(false));
+      });
+
+      AsyncStorage.setItem('DeckCount', JSON.stringify({
+        Value : count
+      }), () => {
+        dispatch(NewDeck(false));
+      });
     });
 
     dispatch(NewDeck(true));
