@@ -34,7 +34,7 @@ class DeckList extends React.Component {
 
   render() {
 
-    const DeckIds = Object.keys(this.props.Decks);
+    const DeckIds = this.props.Decks !== undefined ? Object.keys(this.props.Decks) : [];
 
     return (
       <KeyboardAvoidingView behavior='position' style={{ flex: 1}} >
@@ -50,7 +50,6 @@ class DeckList extends React.Component {
         </View>
         }
         <FlatList
-          //style={{ flex: 1}}
           data={DeckIds}
           keyExtractor={item => item}
           renderItem={({item}) => <DeckPreview deckId={item} navigation={this.props.navigation} />}

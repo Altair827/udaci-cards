@@ -7,6 +7,7 @@ export default class ControlButton extends React.Component {
     return (
       <TouchableNativeFeedback
         onPress={() => this.props.onPress()}
+        background={Platform.OS === 'android' ? TouchableNativeFeedback.SelectableBackground() : ''}
       >
         <Text style={this.props.style}>
           <MaterialIcons name={this.props.icon} color={this.props.iconColor} />

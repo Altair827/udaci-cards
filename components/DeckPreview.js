@@ -89,7 +89,7 @@ class DeckPreview extends React.Component {
       });
     }
     else {
-      this.props.navigation.navigate('DeckScreen');
+      this.props.navigation.navigate('DeckScreen',{ key : [this.props.deckId]});
     }
 
   }
