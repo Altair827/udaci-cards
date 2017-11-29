@@ -57,52 +57,54 @@ export default class AddCard extends React.Component {
 
   render() {
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-          <View style={styles.mainContainer}>
-          <View style={styles.inputsContainer}>
-            <Text style={styles.header}>Question</Text>
-            <KeyboardAvoidingView behavior='padding' style={[styles.inputContainer,this.state.questionContainerStyle]}>
-              <TextInput
-                style={styles.input}
-                autoCapitalize='words'
-                underlineColorAndroid='transparent'
-                selectionColor='#448AFF'
-                onChangeText={(question) => this.setState({question})}
-                value={this.state.deckName}
-                multiline={true}
-                placeholder='Question'
-                numberOfLines={9}
-                onFocus={() => this.setInputContainerStyle('questionContainerStyle')}
-                onBlur={() => this.resetInputContainerStyle('questionContainerStyle')}
+      <KeyboardAvoidingView behavior='padding' style={{flex:1}}>
+        <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <View style={styles.mainContainer}>
+            <View style={styles.inputsContainer}>
+              <Text style={styles.header}>Question</Text>
+              <View behavior='padding' style={[styles.inputContainer,this.state.questionContainerStyle]}>
+                <TextInput
+                  style={styles.input}
+                  autoCapitalize='words'
+                  underlineColorAndroid='transparent'
+                  selectionColor='#448AFF'
+                  onChangeText={(question) => this.setState({question})}
+                  value={this.state.deckName}
+                  multiline={true}
+                  placeholder='Question'
+                  numberOfLines={9}
+                  onFocus={() => this.setInputContainerStyle('questionContainerStyle')}
+                  onBlur={() => this.resetInputContainerStyle('questionContainerStyle')}
+                />
+              </View>
+              <Text style={styles.header}>Answer</Text>
+              <View style={[styles.inputContainer,this.state.answerContainerStyle]}>
+                <TextInput
+                  style={styles.input}
+                  autoCapitalize='words'
+                  underlineColorAndroid='transparent'
+                  selectionColor='#448AFF'
+                  onChangeText={(answer) => this.setState({answer})}
+                  value={this.state.deckName}
+                  multiline={true}
+                  placeholder='Answer'
+                  numberOfLines={9}
+                  onFocus={() => this.setInputContainerStyle('answerContainerStyle')}
+                  onBlur={() => this.resetInputContainerStyle('answerContainerStyle')}
+                />
+              </View>
+            </View>
+            <View style={styles.controlContainer}>
+              <CustomizableButton
+                onPress={() => this.addCard()}
+                buttonStyle={styles.addCardButton}
+                textStyle={styles.buttonText}
+                text="Add Card"
               />
-            </KeyboardAvoidingView>
-            <Text style={styles.header}>Answer</Text>
-            <KeyboardAvoidingView behavior='padding' style={[styles.inputContainer,this.state.answerContainerStyle]}>
-              <TextInput
-                style={styles.input}
-                autoCapitalize='words'
-                underlineColorAndroid='transparent'
-                selectionColor='#448AFF'
-                onChangeText={(answer) => this.setState({answer})}
-                value={this.state.deckName}
-                multiline={true}
-                placeholder='Answer'
-                numberOfLines={9}
-                onFocus={() => this.setInputContainerStyle('answerContainerStyle')}
-                onBlur={() => this.resetInputContainerStyle('answerContainerStyle')}
-              />
-            </KeyboardAvoidingView>
+            </View>
           </View>
-          <View style={styles.controlContainer}>
-            <CustomizableButton
-              onPress={() => this.addCard()}
-              buttonStyle={styles.addCardButton}
-              textStyle={styles.buttonText}
-              text="Add Card"
-            />
-          </View>
-        </View>
-      </TouchableWithoutFeedback>
+        </TouchableWithoutFeedback>
+      </KeyboardAvoidingView>
     )
   }
 };
