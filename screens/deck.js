@@ -47,7 +47,7 @@ class Deck extends React.Component {
           />
 
           <CustomizableButton
-            onPress={() => this.props.navigation.navigate('AddCardScreen', {name: 'Lucy'})}
+            onPress={() => this.props.navigation.navigate('AddCardScreen', {deckKey: params.key})}
             buttonStyle={[styles.button,styles.addButton]}
             textStyle={styles.addText}
             text="Add Card"

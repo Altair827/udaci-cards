@@ -54,7 +54,8 @@ export const CreateNewDeck = (deck) => {
         [count.toString()] : {
           Title : deck,
           key : count,
-          QuestionsCount : 0
+          QuestionsCount : 0,
+          QuestionId : []
         }
       };
 

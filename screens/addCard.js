@@ -3,8 +3,10 @@ import { Text, View, StyleSheet,TextInput, Dimensions, Alert, CheckBox,
           KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomizableButton from '../components/CustomizableButton'
+import { connect } from 'react-redux'
+import { AddNewCard } from '../actions/CardActions'
 
-export default class AddCard extends React.Component {
+class AddCard extends React.Component {
 
   constructor(props){
     super(props);
@@ -19,7 +21,8 @@ export default class AddCard extends React.Component {
       },
       question : '',
       answer : '',
-      isCorrectAnswer : false
+      isCorrectAnswer : false,
+      params : this.props.navigation.state.params
     }
   }
 
@@ -50,10 +53,24 @@ export default class AddCard extends React.Component {
       'Card Alert',
       'Do you want to this card ?',
       [
-        {text: 'Yes', onPress: () => {}},
+        {text: 'Yes', onPress: () => this.AddNewCard()},
         {text: 'Review',style:'cancel'}
       ]
     );
+  }
+
+  AddNewCard = () => {
+
+    const state = this.state;
+
+    const card = {
+      Question : state.question,
+      Answer : state.answer,
+      IsCorrect : state.isCorrectAnswer
+    }
+
+    this.props.AddNewCard(state.params.deckKey.toString(),card);
+
   }
 
   render() {
@@ -183,3 +200,17 @@ const styles = StyleSheet.create({
     fontSize : 24
   }
 })
+
+const mapStateToProps = ({ CardReducer }) => {
+  return {
+    isNewCardCreated : CardReducer.isNewCardCreated
+  };
+}
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    AddNewCard : (deckKey,card) => dispatch(AddNewCard(deckKey,card))
+  };
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(AddCard);
