@@ -1,5 +1,5 @@
 import React from 'react'
-import { Text, View, StyleSheet,TextInput, Dimensions, Alert,
+import { Text, View, StyleSheet,TextInput, Dimensions, Alert, CheckBox,
           KeyboardAvoidingView, Keyboard, TouchableWithoutFeedback } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomizableButton from '../components/CustomizableButton'
@@ -18,7 +18,8 @@ export default class AddCard extends React.Component {
         borderColor : '#4fc3f7'
       },
       question : '',
-      answer : ''
+      answer : '',
+      isCorrectAnswer : false
     }
   }
 
@@ -39,7 +40,7 @@ export default class AddCard extends React.Component {
     this.setState({
       [input] : {
         elevation : 0,
-        borderColor : '#0277bd'
+        borderColor : '#4fc3f7'
       }
     })
   }
@@ -59,10 +60,10 @@ export default class AddCard extends React.Component {
     return (
       <KeyboardAvoidingView behavior='padding' style={{flex:1}}>
         <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            <View style={styles.mainContainer}>
+          <View style={styles.mainContainer}>
             <View style={styles.inputsContainer}>
               <Text style={styles.header}>Question</Text>
-              <View behavior='padding' style={[styles.inputContainer,this.state.questionContainerStyle]}>
+              <View style={[styles.inputContainer,this.state.questionContainerStyle]}>
                 <TextInput
                   style={styles.input}
                   autoCapitalize='words'
@@ -93,6 +94,13 @@ export default class AddCard extends React.Component {
                   onBlur={() => this.resetInputContainerStyle('answerContainerStyle')}
                 />
               </View>
+            </View>
+            <View style={styles.checkboxContainer}>
+              <Text style={styles.checkboxText}>Is Answer Correct?</Text>
+              <CheckBox
+                onValueChange={(isCorrectAnswer) => this.setState({isCorrectAnswer})}
+                value={this.state.isCorrectAnswer}
+              />
             </View>
             <View style={styles.controlContainer}>
               <CustomizableButton
@@ -163,5 +171,15 @@ const styles = StyleSheet.create({
     fontSize : 20,
     alignSelf : 'flex-start',
     margin : 10
+  },
+  checkboxContainer : {
+    flex : 1,
+    flexDirection : 'row',
+    justifyContent : 'space-around',
+    alignItems : 'center'
+  },
+  checkboxText : {
+    color : 'black',
+    fontSize : 24
   }
 })
