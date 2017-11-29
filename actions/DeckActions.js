@@ -9,10 +9,11 @@ export const DeckActions = {
   "DELETE_DECK" : "DELETE_DECK"
 }
 
-export const NewDeck = (isNewDeckCreated,newDeck) => ({
+export const NewDeck = (isNewDeckCreated,newDeck, newDeckKey) => ({
   type : DeckActions.CREATE_NEW_DECK,
   isNewDeckCreated,
-  newDeck
+  newDeck,
+  newDeckKey
 })
 
 export const ResetIsNewDeckCreated = () => ({
@@ -67,7 +68,7 @@ export const CreateNewDeck = (deck) => {
         dispatch(NewDeck(false));
       });
 
-      dispatch(NewDeck(true,newDeck));
+      dispatch(NewDeck(true,newDeck,count));
 
     });
 

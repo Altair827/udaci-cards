@@ -17,21 +17,12 @@ class AddDeck extends React.Component {
   }
   componentWillReceiveProps(newProps){
     if(newProps.isNewDeckCreated === true){
-
-      Alert.alert(
-        'Deck Alert',
-        '"' + this.state.deckName + '" has been created successfully',
-        [
-          {text: 'OK', onPress: () => this.props.navigation.goBack()}
-        ]
-      );
-
       this.setState({
         deckName: ''
       }, () => {
         this.props.ResetIsNewDeckCreated();
+        this.props.navigation.navigate('DeckScreen',{ key : [this.props.lastAddedDeckKey] });
       });
-
     }
   }
 
@@ -89,7 +80,8 @@ const Styles = StyleSheet.create({
 
 const mapStateToProps = ({ DeckReducer }) => {
   return {
-    isNewDeckCreated : DeckReducer.isNewDeckCreated
+    isNewDeckCreated : DeckReducer.isNewDeckCreated,
+    lastAddedDeckKey : DeckReducer.lastAddedDeckKey
   };
 }
 

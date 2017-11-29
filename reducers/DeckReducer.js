@@ -1,6 +1,7 @@
 import { DeckActions } from '../actions/DeckActions'
 
 const initialState = {
+  lastAddedDeckKey : null,
   isNewDeckCreated : false,
   decks : {}
 }
@@ -16,14 +17,16 @@ export function DeckReducer(state = initialState,action){
         decks : {
           ...state.decks,
           ...action.newDeck
-        }
+        },
+        lastAddedDeckKey : action.newDeckKey
       })
 
     case DeckActions.Reset_Is_New_Deck_Created :
 
       return Object.assign({}, state, {
         ...state,
-        isNewDeckCreated : action.isNewDeckCreated
+        isNewDeckCreated : action.isNewDeckCreated,
+        lastAddedDeckKey : null
       })
 
     case DeckActions.GET_ALL_DECKS :
