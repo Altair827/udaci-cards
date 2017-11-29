@@ -56,6 +56,7 @@ class AddDeck extends React.Component {
           style={Styles.NewDeckInput}
           autoCapitalize='words'
           underlineColorAndroid='#448AFF'
+          selectionColor='#448AFF'
           onChangeText={(deckName) => this.setState({deckName})}
           value={this.state.deckName}
         />
