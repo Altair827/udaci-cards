@@ -26,7 +26,7 @@ class DeckList extends React.Component {
     AsyncStorage.getItem('Questions').then((value) => this.setState({
       text : value
     }));
-    AsyncStorage.getItem('QuestionsIdCount').then((value) => this.setState({
+    AsyncStorage.getItem('Decks').then((value) => this.setState({
       count : value
     }));
     this.props.GetAllDecks();
@@ -38,13 +38,15 @@ class DeckList extends React.Component {
 
     return (
       <KeyboardAvoidingView behavior='position' style={{ flex: 1}} >
-        { true &&
+        { false &&
           <View>
             <Button
               onPress={() => this.getDecks()}
               title="Get Cards"
             />
           <Text>{this.state.text}</Text>
+          <Text>{JSON.stringify(this.props.Decks)}</Text>
+          <Text>Async Storage</Text>
           <Text>{this.state.count}</Text>
         </View>
         }

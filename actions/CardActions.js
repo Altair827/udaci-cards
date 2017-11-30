@@ -1,4 +1,5 @@
 import { AsyncStorage, Alert } from 'react-native'
+import { UpdateQuestionsCount } from './DeckActions'
 
 export const CardActions = {
   "CREATE_NEW_CARD" : "CREATE_NEW_CARD",
@@ -11,9 +12,15 @@ export const AddCard = (isNewCardCreated,newCard) => ({
   newCard
 })
 
-export const AddNewCard = (deckKey, card) => {
+export const ResetIsNewCardCreated = () => ({
+  type : CardActions.Reset_NEW_CARD
+})
+
+export const AddNewCard = (deck, card) => {
 
   return (dispatch) => {
+
+    const deckKey = deck.key;
 
     AsyncStorage.getItem('QuestionsIdCount').then((result) => {
 
@@ -34,14 +41,33 @@ export const AddNewCard = (deckKey, card) => {
         }
       };
 
-      AsyncStorage.mergeItem('Questions', JSON.stringify(newCard));
+      AsyncStorage.mergeItem('Questions', JSON.stringify(newCard)).then(() => {
 
-      AsyncStorage.setItem('QuestionsIdCount', JSON.stringify({
-        Value : QuestionIdCount
-      }));
+        AsyncStorage.setItem('QuestionsIdCount', JSON.stringify({
+          Value : QuestionIdCount
+        }),(error) => {
 
-      dispatch(AddCard(true,newCard));
+          if(error == null){
 
+            const updatedDeck = {
+              [deckKey.toString()] : {
+                QuestionsCount : deck.QuestionsCount + 1,
+                QuestionIds : deck.QuestionsCount === 0 ? QuestionIdCount.toString() : deck.QuestionIds + ',' + QuestionIdCount
+              }
+            }
+
+            AsyncStorage.mergeItem('Decks', JSON.stringify(updatedDeck)).then(() => {
+              dispatch(UpdateQuestionsCount(deckKey,updatedDeck[deckKey.toString()]));
+              dispatch(AddCard(true,newCard));
+            });
+
+          }
+          else {
+            Alert.alert('Oooooo');
+          }
+
+        })
+      });
     });
 
   }

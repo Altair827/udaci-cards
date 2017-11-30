@@ -6,7 +6,8 @@ export const DeckActions = {
   "Reset_Is_New_Deck_Created" : "Reset_Is_New_Deck_Created",
   "GET_ALL_DECKS" : "GET_ALL_DECKS",
   "RENAME_DECK" : "RENAME_DECK",
-  "DELETE_DECK" : "DELETE_DECK"
+  "DELETE_DECK" : "DELETE_DECK",
+  "UPDATE_QUESTIONS_COUNT" : "UPDATE_QUESTIONS_COUNT"
 }
 
 export const NewDeck = (isNewDeckCreated,newDeck, newDeckKey) => ({
@@ -37,6 +38,13 @@ const DeleteDeck = (key) => ({
   key
 })
 
+export const UpdateQuestionsCount = (key, updatedDeck) => ({
+  type : DeckActions.UPDATE_QUESTIONS_COUNT,
+  key,
+  QuestionsCount : updatedDeck.QuestionsCount,
+  QuestionIds : updatedDeck.QuestionIds
+})
+
 export const CreateNewDeck = (deck) => {
 
   return (dispatch) => {
@@ -55,7 +63,7 @@ export const CreateNewDeck = (deck) => {
           Title : deck,
           key : count,
           QuestionsCount : 0,
-          QuestionId : []
+          QuestionIds : ''
         }
       };
 

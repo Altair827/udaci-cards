@@ -1,4 +1,5 @@
 import { DeckActions } from '../actions/DeckActions'
+import { Alert } from 'react-native'
 
 const initialState = {
   lastAddedDeckKey : null,
@@ -59,6 +60,20 @@ export function DeckReducer(state = initialState,action){
         ...state,
         decks : {
           ...decks
+        }
+      })
+
+    case DeckActions.UPDATE_QUESTIONS_COUNT :
+
+      return Object.assign({}, state, {
+        ...state,
+        decks : {
+          ...state.decks,
+          [action.key.toString()] : {
+            ...state.decks[action.key],
+            QuestionsCount : action.QuestionsCount,
+            QuestionIds : action.QuestionIds
+          }
         }
       })
 

@@ -1,6 +1,6 @@
 import React from 'react'
 import { connect } from 'react-redux'
-import { Text, View, KeyboardAvoidingView, TextInput, Button, StyleSheet,Alert } from 'react-native'
+import { Text, View, KeyboardAvoidingView, TextInput, Button, StyleSheet,Alert, Keyboard } from 'react-native'
 import { MaterialIcons } from '@expo/vector-icons'
 import { CreateNewDeck,ResetIsNewDeckCreated } from '../actions/DeckActions'
 
@@ -31,7 +31,10 @@ class AddDeck extends React.Component {
       'Deck Alert',
       'Do you want to create a new deck "' + this.state.deckName + '"?',
       [
-        {text: 'Yes', onPress: () => this.props.CreateNewDeck(this.state.deckName)},
+        {text: 'Yes', onPress: () => {
+          Keyboard.dismiss();
+          this.props.CreateNewDeck(this.state.deckName);
+        }},
         {text: 'Review',style:'cancel'}
       ]
     );

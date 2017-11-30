@@ -4,7 +4,7 @@ import { Text, View, StyleSheet,TextInput, Dimensions, Alert, CheckBox,
 import { MaterialIcons } from '@expo/vector-icons'
 import CustomizableButton from '../components/CustomizableButton'
 import { connect } from 'react-redux'
-import { AddNewCard } from '../actions/CardActions'
+import { AddNewCard, ResetIsNewCardCreated } from '../actions/CardActions'
 
 class AddCard extends React.Component {
 
@@ -22,12 +22,20 @@ class AddCard extends React.Component {
       question : '',
       answer : '',
       isCorrectAnswer : false,
-      params : this.props.navigation.state.params
+      params : this.props.navigation.state.params,
+      deck : this.props.decks[this.props.navigation.state.params.deckKey]
     }
   }
 
   static navigationOptions = {
     title: 'Add Card'
+  }
+
+  componentWillReceiveProps(newProps){
+    if(newProps.isNewCardCreated === true){
+      this.props.ResetIsNewCardCreated();
+      this.props.navigation.goBack();
+    }
   }
 
   setInputContainerStyle = (input) => {
@@ -51,7 +59,7 @@ class AddCard extends React.Component {
   addCard = () => {
     Alert.alert(
       'Card Alert',
-      'Do you want to this card ?',
+      'Do you want to add this card ?',
       [
         {text: 'Yes', onPress: () => this.AddNewCard()},
         {text: 'Review',style:'cancel'}
@@ -61,15 +69,15 @@ class AddCard extends React.Component {
 
   AddNewCard = () => {
 
-    const state = this.state;
+    const deck = this.state.deck;
 
     const card = {
-      Question : state.question,
-      Answer : state.answer,
-      IsCorrect : state.isCorrectAnswer
+      Question : this.state.question,
+      Answer : this.state.answer,
+      IsCorrect : this.state.isCorrectAnswer
     }
 
-    this.props.AddNewCard(state.params.deckKey.toString(),card);
+    this.props.AddNewCard(deck,card);
 
   }
 
@@ -201,15 +209,17 @@ const styles = StyleSheet.create({
   }
 })
 
-const mapStateToProps = ({ CardReducer }) => {
+const mapStateToProps = ({ CardReducer, DeckReducer }) => {
   return {
-    isNewCardCreated : CardReducer.isNewCardCreated
+    isNewCardCreated : CardReducer.isNewCardCreated,
+    decks : DeckReducer.decks
   };
 }
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    AddNewCard : (deckKey,card) => dispatch(AddNewCard(deckKey,card))
+    AddNewCard : (deck,card) => dispatch(AddNewCard(deck,card)),
+    ResetIsNewCardCreated : () => dispatch(ResetIsNewCardCreated())
   };
 }
 

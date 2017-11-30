@@ -19,6 +19,13 @@ export function CardReducer(state = initialState,action){
         }
       })
 
+    case CardActions.Reset_NEW_CARD :
+
+      return Object.assign({}, state, {
+        ...state,
+        isNewCardCreated : false
+      })
+
     default :
       return state;
 
