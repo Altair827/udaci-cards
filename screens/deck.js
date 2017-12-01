@@ -40,7 +40,7 @@ class Deck extends React.Component {
         <View style={styles.controlsContainer}>
 
           <CustomizableButton
-            onPress={() => this.props.navigation.navigate('CardScreen', {name: 'Lucy'})}
+            onPress={() => this.props.navigation.navigate('CardScreen', {deck: deck})}
             buttonStyle={[styles.button,styles.startButton,{display : deck.QuestionsCount > 0 ? 'flex' : 'none'}]}
             textStyle={styles.startText}
             text="Start Quiz"

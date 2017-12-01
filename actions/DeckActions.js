@@ -63,7 +63,7 @@ export const CreateNewDeck = (deck) => {
           Title : deck,
           key : count,
           QuestionsCount : 0,
-          QuestionIds : ''
+          QuestionIds : []
         }
       };
 

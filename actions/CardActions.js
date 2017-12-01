@@ -52,7 +52,7 @@ export const AddNewCard = (deck, card) => {
             const updatedDeck = {
               [deckKey.toString()] : {
                 QuestionsCount : deck.QuestionsCount + 1,
-                QuestionIds : deck.QuestionsCount === 0 ? QuestionIdCount.toString() : deck.QuestionIds + ',' + QuestionIdCount
+                QuestionIds : deck.QuestionsCount === 0 ? [QuestionIdCount] : deck.QuestionIds.concat([QuestionIdCount])
               }
             }
 
