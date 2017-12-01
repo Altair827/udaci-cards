@@ -20,18 +20,34 @@ class Quiz extends React.Component {
 
   render() {
     return (
-      <View>
-        <Text>
-          {JSON.stringify(this.props.questions)}
-        </Text>
+      <View style={styles.mainContainer}>
+        <View style={styles.questionTrackerContainer}>
+          <Text style={styles.questionTrackerText}>{'1/' + this.state.deck.QuestionsCount}</Text>
+        </View>
       </View>
     )
   }
 };
 
+const styles = StyleSheet.create({
+  mainContainer :{
+    flex : 1
+  },
+  questionTrackerContainer : {
+    alignItems : 'flex-start',
+    margin : 10,
+    padding : 5,
+    justifyContent : 'center'
+  },
+  questionTrackerText : {
+    fontSize : 20,
+    color : '#4caf50'
+  }
+})
+
 const mapStateToProps = ({ CardReducer }) => {
   return {
-    questions : CardReducer.ActiveDeckQuestions
+    questions : Object.values(CardReducer.ActiveDeckQuestions)
   };
 }
 
