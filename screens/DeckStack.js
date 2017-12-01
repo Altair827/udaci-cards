@@ -1,6 +1,6 @@
 import { StackNavigator } from 'react-navigation'
 import Deck from './deck'
-import Card from './card'
+import Quiz from './quiz'
 import AddCard from './addCard'
 
 const DeckStack = StackNavigator({
@@ -8,7 +8,7 @@ const DeckStack = StackNavigator({
     screen : Deck
   },
   CardScreen : {
-    screen : Card
+    screen : Quiz
   },
   AddCardScreen : {
     screen : AddCard
