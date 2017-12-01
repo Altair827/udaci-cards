@@ -2,7 +2,7 @@ import { CardActions } from '../actions/CardActions'
 
 const initialState = {
   isNewCardCreated : false,
-  ActiveDeckQuestions : {}
+  ActiveDeckQuestions : null
 }
 
 export function CardReducer(state = initialState,action){

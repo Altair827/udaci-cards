@@ -82,7 +82,8 @@ export const FetchAllQuestions = (deckKey) => {
     AsyncStorage.getItem('Questions').then((result) => {
       if(result != null){
 
-        var questions = Object.values(JSON.parse(result)).filter(question => question.deckKey == deckKey);
+        var questions = Object.values(JSON.parse(result)).filter(question => question.deckKey == deckKey)
+                              .map(question => {return question});
 
         dispatch(UpdateActiveDeckQuestions(questions));
 
