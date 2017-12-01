@@ -71,8 +71,7 @@ export function DeckReducer(state = initialState,action){
           ...state.decks,
           [action.key.toString()] : {
             ...state.decks[action.key],
-            QuestionsCount : action.QuestionsCount,
-            QuestionIds : action.QuestionIds
+            QuestionsCount : action.QuestionsCount
           }
         }
       })

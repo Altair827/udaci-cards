@@ -2,7 +2,7 @@ import { CardActions } from '../actions/CardActions'
 
 const initialState = {
   isNewCardCreated : false,
-  Questions : {}
+  ActiveDeckQuestions : {}
 }
 
 export function CardReducer(state = initialState,action){
@@ -12,11 +12,7 @@ export function CardReducer(state = initialState,action){
 
       return Object.assign({}, state, {
         ...state,
-        isNewCardCreated : action.isNewCardCreated,
-        Questions : {
-          ...state.Questions,
-          ...action.newCard
-        }
+        isNewCardCreated : action.isNewCardCreated
       })
 
     case CardActions.Reset_NEW_CARD :
@@ -24,6 +20,13 @@ export function CardReducer(state = initialState,action){
       return Object.assign({}, state, {
         ...state,
         isNewCardCreated : false
+      })
+
+    case CardActions.GET_QUESTIONS :
+
+      return Object.assign({}, state, {
+        ...state,
+        ActiveDeckQuestions : action.questions
       })
 
     default :

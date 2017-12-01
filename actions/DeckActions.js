@@ -41,8 +41,7 @@ const DeleteDeck = (key) => ({
 export const UpdateQuestionsCount = (key, updatedDeck) => ({
   type : DeckActions.UPDATE_QUESTIONS_COUNT,
   key,
-  QuestionsCount : updatedDeck.QuestionsCount,
-  QuestionIds : updatedDeck.QuestionIds
+  QuestionsCount : updatedDeck.QuestionsCount
 })
 
 export const CreateNewDeck = (deck) => {
@@ -62,8 +61,7 @@ export const CreateNewDeck = (deck) => {
         [count.toString()] : {
           Title : deck,
           key : count,
-          QuestionsCount : 0,
-          QuestionIds : []
+          QuestionsCount : 0
         }
       };
 

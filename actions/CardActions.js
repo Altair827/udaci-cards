@@ -3,13 +3,18 @@ import { UpdateQuestionsCount } from './DeckActions'
 
 export const CardActions = {
   "CREATE_NEW_CARD" : "CREATE_NEW_CARD",
-  "Reset_NEW_CARD" : "Reset_NEW_CARD"
+  "Reset_NEW_CARD" : "Reset_NEW_CARD",
+  "GET_QUESTIONS" : "GET_QUESTIONS"
 }
 
-export const AddCard = (isNewCardCreated,newCard) => ({
+export const AddCard = (isNewCardCreated) => ({
   type : CardActions.CREATE_NEW_CARD,
-  isNewCardCreated,
-  newCard
+  isNewCardCreated
+})
+
+const UpdateActiveDeckQuestions = (questions) => ({
+  type : CardActions.GET_QUESTIONS,
+  questions
 })
 
 export const ResetIsNewCardCreated = () => ({
@@ -51,14 +56,13 @@ export const AddNewCard = (deck, card) => {
 
             const updatedDeck = {
               [deckKey.toString()] : {
-                QuestionsCount : deck.QuestionsCount + 1,
-                QuestionIds : deck.QuestionsCount === 0 ? [QuestionIdCount] : deck.QuestionIds.concat([QuestionIdCount])
+                QuestionsCount : deck.QuestionsCount + 1
               }
             }
 
             AsyncStorage.mergeItem('Decks', JSON.stringify(updatedDeck)).then(() => {
               dispatch(UpdateQuestionsCount(deckKey,updatedDeck[deckKey.toString()]));
-              dispatch(AddCard(true,newCard));
+              dispatch(AddCard(true));
             });
 
           }
@@ -69,6 +73,20 @@ export const AddNewCard = (deck, card) => {
         })
       });
     });
+  }
+}
 
+export const FetchAllQuestions = (deckKey) => {
+  return (dispatch) => {
+
+    AsyncStorage.getItem('Questions').then((result) => {
+      if(result != null){
+
+        var questions = Object.values(JSON.parse(result)).filter(question => question.deckKey == deckKey);
+
+        dispatch(UpdateActiveDeckQuestions(questions));
+
+      }
+    });
   }
 }
