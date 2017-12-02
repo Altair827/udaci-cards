@@ -154,7 +154,7 @@ class Quiz extends React.Component {
             <View style={styles.scoreContainer}>
 
               <Text style={{fontSize : 24, margin : 15}}>Your Score Is</Text>
-              <Text style={{fontSize : 40, color : '#6200EA', margin : 30}}>{this.state.score / this.state.deck.QuestionsCount * 100}%</Text>
+              <Text style={{fontSize : 40, color : '#6200EA', margin : 30}}>{Math.round(this.state.score / this.state.deck.QuestionsCount * 100)}%</Text>
 
               <CustomizableButton
                 onPress={() => this.retry()}

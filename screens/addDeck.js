@@ -55,6 +55,7 @@ class AddDeck extends React.Component {
           value={this.state.deckName}
         />
         <Button
+          disabled={this.state.deckName === ''}
           onPress={() => this.ConfirmNewDeckCreation()}
           title="Add Deck"
         />

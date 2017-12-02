@@ -34,33 +34,45 @@ class DeckList extends React.Component {
 
   render() {
 
-    const DeckIds = this.props.Decks !== undefined ? Object.keys(this.props.Decks) : [];
+    const DeckIds = this.props.Decks !== null ? Object.keys(this.props.Decks) : [];
 
     return (
-      <KeyboardAvoidingView behavior='position' style={{ flex: 1}} >
-        { false &&
-          <View>
-            <Button
-              onPress={() => this.getDecks()}
-              title="Get Cards"
+      <View style={{ flex: 1}}>
+        {
+          DeckIds.length !== 0 ?
+
+          <KeyboardAvoidingView behavior='position' style={{ flex: 1}} >
+            <FlatList
+              data={DeckIds}
+              keyExtractor={item => item}
+              renderItem={({item}) => <DeckPreview deckId={item} navigation={this.props.navigation} />}
+              keyboardShouldPersistTaps='always'
+              overScrollMode='always'
             />
-          <Text>{this.state.text}</Text>
-          <Text>{JSON.stringify(this.props.Decks)}</Text>
-          <Text>Async Storage</Text>
-          <Text>{this.state.count}</Text>
-        </View>
+          </KeyboardAvoidingView>
+
+          :
+
+          <View style={styles.EmptyListContainer}>
+            <Text style={styles.AddDeckText} onPress={() => this.props.navigation.navigate('AddDeck')}>Add Deck</Text>
+          </View>
         }
-        <FlatList
-          data={DeckIds}
-          keyExtractor={item => item}
-          renderItem={({item}) => <DeckPreview deckId={item} navigation={this.props.navigation} />}
-          keyboardShouldPersistTaps='always'
-          overScrollMode='always'
-        />
-      </KeyboardAvoidingView>
+      </View>
     )
   }
 };
+
+const styles = StyleSheet.create({
+  EmptyListContainer : {
+    flex : 1,
+    justifyContent : 'center',
+    alignItems : 'center'
+  },
+  AddDeckText : {
+    fontSize : 24,
+    color : '#1565C0'
+  }
+})
 
 const mapStateToProps = ({ DeckReducer }) => {
   return {

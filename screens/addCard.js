@@ -57,14 +57,19 @@ class AddCard extends React.Component {
   }
 
   addCard = () => {
-    Alert.alert(
-      'Card Alert',
-      'Do you want to add this card ?',
-      [
-        {text: 'Yes', onPress: () => this.AddNewCard()},
-        {text: 'Review',style:'cancel'}
-      ]
-    );
+    if(this.state.question === '' || this.state.answer === ''){
+      Alert.alert('Card Alert','Fields shouldn\'t be left empty');
+    }
+    else{
+      Alert.alert(
+        'Card Alert',
+        'Do you want to add this card ?',
+        [
+          {text: 'Yes', onPress: () => this.AddNewCard()},
+          {text: 'Review',style:'cancel'}
+        ]
+      );
+    }
   }
 
   AddNewCard = () => {

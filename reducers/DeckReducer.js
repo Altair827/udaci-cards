@@ -4,7 +4,7 @@ import { Alert } from 'react-native'
 const initialState = {
   lastAddedDeckKey : null,
   isNewDeckCreated : false,
-  decks : {}
+  decks : null
 }
 
 export function DeckReducer(state = initialState,action){
