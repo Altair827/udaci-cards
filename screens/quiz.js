@@ -4,6 +4,7 @@ import { MaterialIcons } from '@expo/vector-icons'
 import { connect } from 'react-redux'
 import { FetchAllQuestions } from '../actions/CardActions'
 import CustomizableButton from '../components/CustomizableButton'
+import { clearLocalNotification, setLocalNotification } from '../helper'
 
 class Quiz extends React.Component {
 
@@ -59,6 +60,9 @@ class Quiz extends React.Component {
           isQuizEnd : true
         };
       });
+
+      clearLocalNotification().then(setLocalNotification())
+
     }
 
   }

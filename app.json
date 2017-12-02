@@ -3,6 +3,18 @@
     "sdkVersion": "22.0.0",
     "loading" : {
       "icon" : "./assets/SplashScreen.png"
-    }
+    },
+    "icon": "./icon.png",
+    "notification": {
+      "icon": "./icon.png"
+    },
+    "android": {
+     "package": "org.udacicards.exp",
+    },
+    "orientation": "portrait",
+    "name": "Udaci Cards",
+    "description": "Have a bite of knowledge everyday!",
+    "slug": "udacicards",
+    "version": "1.0"
   }
 }
