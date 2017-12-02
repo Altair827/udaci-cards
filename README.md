@@ -3,7 +3,7 @@ This project was bootstrapped with [Create React Native App](https://github.com/
 ## Table of Contents
 
 * [Installation](#installation)
-* [Usage](#Usage)
+* [Usage](#usage)
 * [Supported Environments](#supported-environments)
 
 ## Installation
